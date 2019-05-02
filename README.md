@@ -1,4 +1,4 @@
-# SubmoduleStudy
+# Submodule Study
 Study on submodule structure of complex image modeling task.
 
 We present a study on modeling the task of solving simple digit addition problems. The input to the model is an image consisting
