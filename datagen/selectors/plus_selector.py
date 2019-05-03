@@ -1,6 +1,7 @@
 import numpy as np
 
 from datagen.selectors.selector import Selector
+from datagen.util import constants
 
 
 class PlusSelector(Selector):
@@ -21,3 +22,13 @@ class PlusSelector(Selector):
 
         # Return an empty dict; no metadata required.
         return self.images[random_index], {}
+
+    @staticmethod
+    def process_single_img(img):
+        """
+        Processes single plus image by inverting the pixel values to match that of MNIST.
+
+        :param img: 2D numpy array of the plus image.
+        :return: post processed image as a 2D numpy array of the same dimension.
+        """
+        return constants.MAX_PIXEL_VAL - img

@@ -6,31 +6,30 @@ from datagen.combiners.combiner import Combiner
 class HorizontalCombiner(Combiner):
     """
     The HorizontalCombiner is an implementation of the Combiner interface such that
-    variable types and lengths of selectors can be combined by horizontal concatenation.
+    variable types of two selectors can be combined by horizontal concatenation.
 
     This requires output images from the selectors to all have identical heights.
     """
+
+    LEFT_KEY = "left"
+    RIGHT_KEY = "right"
 
     def combine_random_selector_images(self):
         """
         Horizontally concatenates images from individual selectors.
 
         :return: numpy array along with metadata from each individual selector. The metadata dict contains
-        a nested dictionary for each individual metadata of the selectors.
+        a nested dictionary for each individual metadata of the selectors keyed by "left" and "right".
         """
-        random_images = []
-        combined_metadata = dict()
-        image_no = 0
+        left_image, left_metadata = self.selector1.poll_random_img()
+        right_image, right_metadata = self.selector2.poll_random_img()
 
-        for selector in self.selectors:
-            image, metadata = selector.poll_random_img()
-
-            combined_metadata[image_no] = metadata
-            random_images.append(image)
-
-            image_no += 1
+        combined_metadata = {
+            self.LEFT_KEY: left_metadata,
+            self.RIGHT_KEY: right_metadata
+        }
 
         # Throws exception if heights of the images do not match.
-        concatenated_image = np.concatenate(random_images, axis=1)
+        concatenated_image = np.concatenate([left_image, right_image], axis=1)
 
         return concatenated_image, combined_metadata
