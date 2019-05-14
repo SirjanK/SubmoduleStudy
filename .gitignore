@@ -1,3 +1,4 @@
 .idea/
 data/e2e
 __pycache__
+.ipynb_checkpoints/
